@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CommonModule } from './common/common.module';
 
-import { GraphQlModule } from './common/graphql.module';
-import { MongDbModule } from './common/mongodb.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
-  imports: [GraphQlModule, MongDbModule],
+  imports: [CommonModule, UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
