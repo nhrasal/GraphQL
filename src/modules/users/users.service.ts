@@ -5,17 +5,24 @@ import { User } from './entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ListUsersInput } from './dto/list-users.input';
+import { BcryptHelper } from 'src/helper/bcrypt.helper';
 
 @Injectable()
 export class UsersService {
+  bcryptHelper = new BcryptHelper();
+
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
   ) {}
 
-  create(createUserInput: CreateUserInput) {
-    const user = new this.userModel(createUserInput);
-    return user.save();
+  async create(createUserInput: CreateUserInput) {
+    const data = {
+      ...createUserInput,
+      password: await this.bcryptHelper.hashString(createUserInput.password),
+    };
+    const user = new this.userModel(data);
+    return await user.save();
   }
 
   findAll(paginationQuery: ListUsersInput) {
