@@ -2,19 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import {
-  ApolloFederationDriver,
-  ApolloFederationDriverConfig,
-} from '@nestjs/apollo';
-import { GraphQLModule } from '@nestjs/graphql';
+import { GraphQlModule } from './common/graphql.module';
+import { MongDbModule } from './common/mongodb.module';
 
 @Module({
-  imports: [
-    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
-      driver: ApolloFederationDriver,
-      autoSchemaFile: true,
-    }),
-  ],
+  imports: [GraphQlModule, MongDbModule],
   controllers: [AppController],
   providers: [AppService],
 })
