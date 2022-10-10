@@ -14,7 +14,7 @@ export const ENV = {
   env: process.env.NODE_ENV || ENV_DEVELOPMENT,
   isDevelopment: process.env.NODE_ENV === ENV_DEVELOPMENT,
 
-  logFilePath: process.env.LOG_FILE_PATH || 'place.log',
+  logFilePath: process.env.LOG_FILE_PATH || 'logs/place.log',
   OTP_Timeout: process.env.OTP_Timeout,
 
   API_PREFIX: process.env.API_PREFIX,
@@ -60,12 +60,24 @@ export const ENV = {
 
   DB: {
     type: 'mongodb',
-    host: process.env.ORM_HOST,
+    host: process.env.ORM_HOST || 'localhost',
     port: +process.env.ORM_PORT,
     username: process.env.ORM_USERNAME,
     password: process.env.ORM_PASSWORD,
     database: process.env.ORM_DATABASE,
+    synchronize: process.env.ORM_SYNCHRONIZE,
+    logging: process.env.ORM_LOGGING,
   },
 };
 
-export const ormConfig: any = {};
+export const ormConfig: any = {
+  type: ENV.DB.type,
+  host: ENV.DB.host,
+  port: +ENV.DB.port,
+  username: ENV.DB.username,
+  password: ENV.DB.password,
+  database: 'test',
+
+  synchronize: toBool(ENV.DB.synchronize),
+  logging: toBool(ENV.DB.logging),
+};
