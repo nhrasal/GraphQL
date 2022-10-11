@@ -59,4 +59,10 @@ export class UsersService {
     const users = await this.findAll(paginationQuery);
     return { users, count };
   }
+
+  async findOneByEmail(email: string) {
+    const user = await this.userModel.findOne({ email: email }).exec();
+
+    return user;
+  }
 }

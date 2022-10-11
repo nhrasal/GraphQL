@@ -1,5 +1,5 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Schema as MongooseSchema } from 'mongoose';
+import { now, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @Schema()
 @ObjectType()
@@ -20,28 +20,24 @@ export class User {
   email: string;
 
   @Prop()
-  @Field(() => String, { description: 'User Password ' })
+  // @Field(() => String, { description: 'User Password ' })
   password: string;
 
   @Prop()
   @Field(() => String, { description: 'User role' })
   role: string;
 
-  @Prop()
-  @Field(() => Boolean, { defaultValue: true })
+  @Prop({ default: true })
+  @Field(() => Boolean)
   isActive: boolean;
 
-  @Prop()
-  @Field(() => Date, { defaultValue: new Date() })
+  @Prop({ default: now() })
+  @Field(() => Date)
   createdAt: Date;
 
-  @Prop()
-  @Field(() => Date, { defaultValue: new Date() })
+  @Prop({ default: now() })
+  @Field(() => Date)
   updatedAt: Date;
-
-  @Prop()
-  @Field(() => Date, { defaultValue: new Date() })
-  deletedAt: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

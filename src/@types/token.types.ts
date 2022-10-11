@@ -5,7 +5,7 @@ export type Token = {
 
 export type TokenGeneratorPayload = {
   id: string;
-  deviceId: string;
+  email: string;
 };
 
 export type TokenPayloadReturn = {

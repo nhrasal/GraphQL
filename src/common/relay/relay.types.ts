@@ -32,6 +32,9 @@ export function RelayTypes<T>(type: Type<T>): any {
 
     @Field(() => Boolean)
     public hasNextPage!: boolean;
+
+    @Field(() => Number)
+    public total!: number;
   }
 
   @ObjectType(`${name}Connection`, { isAbstract: true })
