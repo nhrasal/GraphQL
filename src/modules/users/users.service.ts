@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
@@ -17,6 +21,9 @@ export class UsersService {
   ) {}
 
   async create(createUserInput: CreateUserInput) {
+    const findUser = await this.findOneByEmail(createUserInput.email);
+    if (findUser) throw new BadRequestException('User already exists!');
+
     const data = {
       ...createUserInput,
       password: await this.bcryptHelper.hashString(createUserInput.password),
@@ -39,8 +46,12 @@ export class UsersService {
   }
 
   async update(id: string, updateUserInput: UpdateUserInput) {
+    const data = {
+      ...updateUserInput,
+      password: await this.bcryptHelper.hashString(updateUserInput.password),
+    };
     const existingUser = await this.userModel
-      .findOneAndUpdate({ _id: id }, { $set: updateUserInput }, { new: true })
+      .findOneAndUpdate({ _id: id }, { $set: data }, { new: true })
       .exec();
 
     if (!existingUser) {
