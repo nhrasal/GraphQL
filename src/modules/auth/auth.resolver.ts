@@ -3,8 +3,8 @@ import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { TokenGeneratorPayload } from 'src/@types/token.types';
 import { BcryptHelper } from 'src/helper/bcrypt.helper';
 import { JWTHelper } from 'src/helper/jwt.helper';
-import { User } from '../users/entities/user.entity';
-import { UsersService } from '../users/users.service';
+import { User } from '../users-mongos/entities/user.entity';
+import { UsersService } from '../users-mongos/users.service';
 import { LoginInput } from './dto/loginUser.input';
 import { LoginResponse } from './dto/loginUser.response';
 @Resolver(() => User)

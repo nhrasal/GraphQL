@@ -1,6 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { UsersModule } from '../users/users.module';
-import { UsersService } from '../users/users.service';
+import { UsersModule } from '../users-mongos/users.module';
 import { AuthResolver } from './auth.resolver';
 
 @Module({

@@ -1,43 +1,36 @@
-import { ObjectType, Field } from '@nestjs/graphql';
-import { now, Schema as MongooseSchema } from 'mongoose';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-@Schema()
-@ObjectType()
-export class User {
-  @Field(() => String)
-  _id: MongooseSchema.Types.ObjectId;
+/* eslint-disable prettier/prettier */
+import { BaseEntity } from 'src/base/base.entity';
+import { Column, Entity } from 'typeorm';
+import { Scope } from 'typeorm-scope';
 
-  @Prop()
-  @Field(() => String, { description: 'User firstName ' })
+@Scope<UserEntity>([(qb, alias) => qb.andWhere(`${alias}.deletedAt IS NULL`)])
+@Entity('user')
+export class UserEntity extends BaseEntity {
+  @Column({ nullable: true })
   firstName: string;
 
-  @Prop()
-  @Field(() => String, { description: 'User lastName ' })
+  @Column({ nullable: true })
   lastName: string;
 
-  @Prop()
-  @Field(() => String, { description: 'User email ' })
+  @Column({ nullable: true })
   email: string;
 
-  @Prop()
-  // @Field(() => String, { description: 'User Password ' })
+  @Column({ nullable: true })
+  userType: string;
+
+  @Column({ nullable: true })
   password: string;
 
-  @Prop()
-  @Field(() => String, { description: 'User role' })
-  role: string;
+  @Column({ default: false })
+  emailVerified: boolean;
 
-  @Prop({ default: true })
-  @Field(() => Boolean)
-  isActive: boolean;
+  @Column({ nullable: true })
+  token: string;
 
-  @Prop({ default: now() })
-  @Field(() => Date)
-  createdAt: Date;
+  @Column({ nullable: true })
+  image: string;
 
-  @Prop({ default: now() })
-  @Field(() => Date)
-  updatedAt: Date;
+  constructor() {
+    super();
+  }
 }
-
-export const UserSchema = SchemaFactory.createForClass(User);

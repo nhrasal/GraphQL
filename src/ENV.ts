@@ -4,7 +4,10 @@ export function toBool(value: string): boolean {
   return value === 'true';
 }
 config({
-  path: path.join(process.cwd(), `${process.env.NODE_ENV || 'dev'}.env`),
+  path: path.join(
+    process.cwd(),
+    `${process.env.NODE_ENV || 'development'}.env`,
+  ),
 });
 
 export const ENV_DEVELOPMENT = 'development';
