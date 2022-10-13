@@ -5,6 +5,7 @@ import { BcryptHelper } from 'src/helper/bcrypt.helper';
 import { JWTHelper } from 'src/helper/jwt.helper';
 import { User } from '../users-mongos/entities/user.entity';
 import { UsersService } from '../users-mongos/users.service';
+import { UserService } from '../users/services/user.service';
 import { LoginInput } from './dto/loginUser.input';
 import { LoginResponse } from './dto/loginUser.response';
 @Resolver(() => User)
@@ -12,18 +13,18 @@ export class AuthResolver {
   jwtHelper = new JWTHelper();
   bcryptHelper = new BcryptHelper();
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UserService) {}
 
   @Mutation(() => LoginResponse)
   async login(
     @Args('loginInput') loginInput: LoginInput,
   ): Promise<LoginResponse> {
-    const user = await this.usersService.findOneByEmail(loginInput.email);
+    const user: any = await this.usersService.findOneByEmail(loginInput.email);
 
     if (!user) throw new NotFoundException('User not found!');
 
-    if (!user.isActive)
-      throw new BadRequestException('User has been deactivated!');
+    // if (!user.isActive)
+    //   throw new BadRequestException('User has been deactivated!');
 
     const isValidPassword = await this.bcryptHelper.compareHash(
       loginInput.password,
@@ -33,7 +34,7 @@ export class AuthResolver {
     if (!isValidPassword) throw new BadRequestException('Credential not match');
 
     const tokenPayload: TokenGeneratorPayload = {
-      id: user.id,
+      id: user._id,
       email: user.email,
     };
 

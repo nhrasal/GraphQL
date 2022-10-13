@@ -3,11 +3,12 @@ import { connectionFromArraySlice } from 'graphql-relay';
 import ConnectionArgs, {
   getPagingParameters,
 } from 'src/common/relay/connection.args';
-import { CreateUserInput } from './dto/createUser.input';
-import { ListUsersResponse } from './dto/list.users.response';
-import { ListUsersInput } from './dto/listUsers.input';
-import { UserS } from './dto/user';
-import { UserService } from './user.service';
+import { CreateUserInput } from '../dto/createUser.input';
+import { ListUsersResponse } from '../dto/list.users.response';
+import { ListUsersInput } from '../dto/listUsers.input';
+import { UpdateUserInput } from '../dto/updateUser.input';
+import { UserS } from '../dto/user';
+import { UserService } from '../services/user.service';
 
 @Resolver(() => UserS)
 export class UserResolver {
@@ -15,7 +16,7 @@ export class UserResolver {
 
   @Mutation(() => UserS)
   async createUser(@Args('createUser') createUserInput: CreateUserInput) {
-    return await this.usersService.create(createUserInput);
+    return await this.usersService.store(createUserInput);
   }
 
   @Query(() => ListUsersResponse, { name: 'listUsersWithCursor' })
@@ -37,15 +38,17 @@ export class UserResolver {
     return { page, pageData: { count, limit, offset } };
   }
 
-  //   @Query(() => UserS, { name: 'user' })
-  //   findOne(@Args('_id', { type: () => String }) id: string) {
-  //     return this.usersService.findOne(id);
-  //   }
+  @Query(() => UserS, { name: 'user' })
+  findOne(@Args('_id', { type: () => String }) id: string) {
+    return this.usersService.findById(id);
+  }
 
-  //   @Mutation(() => UserS)
-  //   updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-  //     return this.usersService.update(updateUserInput._id, updateUserInput);
-  //   }
+  @Mutation(() => UserS)
+  async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+    const findUser = await this.usersService.findById(updateUserInput._id);
+    await delete updateUserInput._id;
+    return await this.usersService.update(findUser._id, updateUserInput);
+  }
 
   //   @Mutation(() => UserS)
   //   removeUser(@Args('_id', { type: () => String }) id: string) {

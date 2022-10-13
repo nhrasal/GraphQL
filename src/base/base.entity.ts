@@ -11,7 +11,7 @@ export abstract class BaseEntity {
   @ObjectIdColumn()
   _id: ObjectID;
 
-  @Column({ nullable: true, default: true })
+  @Column({ default: true })
   isActive: boolean;
 
   @DeleteDateColumn()

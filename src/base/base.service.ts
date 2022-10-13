@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { ObjectID, Repository } from 'typeorm';
 
 export abstract class BaseService<Entity> extends Repository<Entity> {
   repo: Repository<Entity>;
@@ -13,6 +13,7 @@ export abstract class BaseService<Entity> extends Repository<Entity> {
     const payload = await this.repo.findAndCount(options);
     return payload;
   }
+
   async store(data: any): Promise<any> {
     return await this.repo.save(data);
   }
@@ -21,11 +22,11 @@ export abstract class BaseService<Entity> extends Repository<Entity> {
     return await this.repo.findOne(options);
   }
 
-  async findById(id: any, options?: any): Promise<any> {
-    return await this.repo.findOne({ _id: id, ...options });
+  async findById(_id: any, options?: any): Promise<any> {
+    return await this.repo.findOne({ where: { _id: _id }, ...options });
   }
 
-  async update(id: string, options: any): Promise<any> {
-    return await this.repo.save({ id: id, ...options });
+  async update(_id: ObjectID, options: any): Promise<any> {
+    return await this.repo.update(_id, { ...options });
   }
 }

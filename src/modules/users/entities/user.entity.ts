@@ -16,6 +16,9 @@ export class UserEntity extends BaseEntity {
   email: string;
 
   @Column({ nullable: true })
+  gender: string;
+
+  @Column({ nullable: true })
   userType: string;
 
   @Column({ nullable: true })
@@ -30,7 +33,10 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: true })
   image: string;
 
-  constructor() {
+  constructor(user: Partial<UserEntity>) {
     super();
+    if (user) {
+      this.isActive = this.isActive === undefined ? true : this.isActive;
+    }
   }
 }

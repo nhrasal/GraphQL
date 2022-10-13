@@ -79,7 +79,7 @@ export const ormConfig: any = {
   port: +ENV.DB.port,
   username: ENV.DB.username,
   password: ENV.DB.password,
-  database: 'test',
+  database: ENV.DB.database,
 
   synchronize: toBool(ENV.DB.synchronize),
   logging: toBool(ENV.DB.logging),
