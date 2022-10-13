@@ -1,11 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Schema as MongooseSchema } from 'mongoose';
-@Schema()
-@ObjectType()
+import { ObjectID } from 'typeorm';
+
+@ObjectType('user')
 export class UserS {
   @Field(() => String)
-  _id: MongooseSchema.Types.ObjectId;
+  _id: ObjectID;
 
   @Field(() => String, { description: 'User firstName ' })
   firstName: string;
@@ -31,5 +30,3 @@ export class UserS {
   @Field(() => Date)
   updatedAt: Date;
 }
-
-export const UserSchema = SchemaFactory.createForClass(UserS);

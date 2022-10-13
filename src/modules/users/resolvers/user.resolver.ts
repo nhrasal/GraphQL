@@ -34,8 +34,7 @@ export class UserResolver {
       arrayLength: count,
       sliceStart: offset || 0,
     });
-
-    return { page, pageData: { count, limit, offset } };
+    return { page: { ...page }, pageData: { count, limit, offset } };
   }
 
   @Query(() => UserS, { name: 'user' })
