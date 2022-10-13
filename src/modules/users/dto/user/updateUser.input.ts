@@ -1,11 +1,7 @@
-import { CreateUserInput } from './createUser.input';
-import { InputType, Field, PartialType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateUserInput {
-  @Field(() => String)
-  _id: string;
-
   @Field(() => String, { description: 'first name of the user' })
   firstName: string;
 

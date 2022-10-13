@@ -14,6 +14,14 @@ export abstract class BaseService<Entity> extends Repository<Entity> {
     return payload;
   }
 
+  async findAllWithPagination(paginationQuery: any): Promise<any> {
+    const { limit, offset } = await paginationQuery;
+    return await this.repo.findAndCount({
+      skip: offset,
+      take: limit,
+    });
+  }
+
   async store(data: any): Promise<any> {
     return await this.repo.save(data);
   }
@@ -23,10 +31,19 @@ export abstract class BaseService<Entity> extends Repository<Entity> {
   }
 
   async findById(_id: any, options?: any): Promise<any> {
-    return await this.repo.findOne({ where: { _id: _id }, ...options });
+    return await this.repo.findOne(_id);
   }
 
   async update(_id: ObjectID, options: any): Promise<any> {
-    return await this.repo.update(_id, { ...options });
+    const update = await this.repo
+      .createQueryBuilder()
+      .update(options)
+      .where({
+        _id,
+      })
+      .returning('*')
+      .execute();
+    return update.raw[0];
+    // update(_id, { ...options });
   }
 }

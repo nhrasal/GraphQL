@@ -2,9 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base/base.service';
 import { BcryptHelper } from 'src/helper/bcrypt.helper';
-import { MongoRepository, ObjectID } from 'typeorm';
+import { MongoRepository } from 'typeorm';
+import { ListUsersInput } from '../dto/user/listUsers.input';
 import { UserEntity } from '../entities/user.entity';
-import { ListUsersInput } from '../dto/listUsers.input';
 @Injectable()
 export class UserService extends BaseService<UserEntity> {
   bcryptHelper = new BcryptHelper();
@@ -28,13 +28,13 @@ export class UserService extends BaseService<UserEntity> {
     return this.userRepo.save(data);
   }
 
-  findAll(paginationQuery: ListUsersInput): Promise<any> {
-    const { limit, offset } = paginationQuery;
-    return this.userRepo.findAndCount({
-      skip: offset,
-      take: limit,
-    });
-  }
+  // findAll(paginationQuery: ListUsersInput): Promise<any> {
+  //   const { limit, offset } = paginationQuery;
+  //   return this.userRepo.findAndCount({
+  //     skip: offset,
+  //     take: limit,
+  //   });
+  // }
 
   async findOneByEmail(email: string) {
     const user = await this.userRepo.findOne({

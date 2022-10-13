@@ -1,10 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
-import { CreateUserInput } from './createUser.input';
 @Schema()
 @ObjectType()
-export class UserS extends CreateUserInput {
+export class UserS {
   @Field(() => String)
   _id: MongooseSchema.Types.ObjectId;
 
@@ -17,13 +16,13 @@ export class UserS extends CreateUserInput {
   @Field(() => String, { description: 'User email ' })
   email: string;
 
-  @Field(() => String, { description: 'User email ' })
+  @Field(() => String, { description: 'User Bio ' })
   bio: string;
 
-  @Field(() => String, { description: 'User email ' })
+  @Field(() => String, { description: 'User Gender ' })
   gender: string;
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, { defaultValue: true })
   isActive: boolean;
 
   @Field(() => Date)

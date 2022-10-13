@@ -2,6 +2,7 @@
 import { BaseEntity } from 'src/base/base.entity';
 import { Column, Entity } from 'typeorm';
 import { Scope } from 'typeorm-scope';
+import { InterestEntity } from './interest.entity';
 
 @Scope<UserEntity>([(qb, alias) => qb.andWhere(`${alias}.deletedAt IS NULL`)])
 @Entity('user')
@@ -17,6 +18,12 @@ export class UserEntity extends BaseEntity {
 
   @Column({ nullable: true })
   gender: string;
+
+  @Column({ nullable: true })
+  bio: string;
+
+  @Column((type) => InterestEntity)
+  interests: InterestEntity[];
 
   @Column({ nullable: true })
   userType: string;
