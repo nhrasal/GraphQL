@@ -5,7 +5,7 @@ import { Scope } from 'typeorm-scope';
 import { InterestEntity } from './interest.entity';
 
 @Scope<UserEntity>([(qb, alias) => qb.andWhere(`${alias}.deletedAt IS NULL`)])
-@Entity('user')
+@Entity('users')
 export class UserEntity extends BaseEntity {
   @Column({ nullable: true })
   firstName: string;
@@ -22,7 +22,7 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: true })
   bio: string;
 
-  @Column((type) => InterestEntity)
+  @Column(() => InterestEntity)
   interests: InterestEntity[];
 
   @Column({ nullable: true })
@@ -39,11 +39,4 @@ export class UserEntity extends BaseEntity {
 
   @Column({ nullable: true })
   image: string;
-
-  constructor(user: Partial<UserEntity>) {
-    super();
-    if (user) {
-      this.isActive = this.isActive === undefined ? true : this.isActive;
-    }
-  }
 }

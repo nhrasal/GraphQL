@@ -1,5 +1,22 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { IsEmpty, IsOptional } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql';
+import { ObjectID } from 'typeorm';
+
+type male = 'male';
+type Female = 'female';
+
+enum Gender {
+  Male = 'Male',
+  Female = 'Female',
+}
+
+@InputType()
+export class InterestAdd {
+  @Field(() => String, { defaultValue: '' })
+  _id: ObjectID;
+
+  @Field(() => String, { defaultValue: '' })
+  name: string;
+}
 
 @InputType()
 export class CreateUserInput {
@@ -12,10 +29,20 @@ export class CreateUserInput {
   @Field(() => String, { description: 'User email ' })
   email: string;
 
-  @Field(() => String, { description: 'User bio ', nullable: true })
+  @Field(() => String, {
+    description: 'User bio',
+    nullable: true,
+    defaultValue: '',
+  })
   bio?: string;
 
-  @Field(() => String, { description: 'User gender ', nullable: true })
+  @Field((type) => [InterestAdd], { nullable: true, defaultValue: [] })
+  interests: Promise<InterestAdd[]>;
+
+  @Field(() => String, {
+    nullable: true,
+    defaultValue: '',
+  })
   gender?: string;
 
   @Field(() => String, { description: 'password of the user' })

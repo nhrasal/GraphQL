@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { ObjectID } from 'typeorm';
+import { Interest } from '../interest/interest';
 
 @ObjectType('user')
 export class UserS {
@@ -20,6 +21,9 @@ export class UserS {
 
   @Field(() => String, { description: 'User Gender ' })
   gender: string;
+
+  @Field((type) => [Interest], { nullable: true })
+  interests: Promise<Interest[]>;
 
   @Field(() => Boolean, { defaultValue: true })
   isActive: boolean;

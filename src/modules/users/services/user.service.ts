@@ -24,6 +24,11 @@ export class UserService extends BaseService<UserEntity> {
     const data = {
       ...userRequestData,
       password: await this.bcryptHelper.hashString(userRequestData.password),
+      deletedAt: null,
+      token: null,
+      emailVerified: false,
+      userType: 'user',
+      image: null,
     };
     return this.userRepo.save(data);
   }

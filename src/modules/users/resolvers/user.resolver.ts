@@ -6,13 +6,33 @@ import ConnectionArgs, {
 } from 'src/common/relay/connection.args';
 import { CreateUserInput } from '../dto/user/createUser.input';
 import { ListUsersResponse } from '../dto/user/list.users.response';
+import { ListUsersInput } from '../dto/user/listUsers.input';
 import { UpdateUserInput } from '../dto/user/updateUser.input';
 import { UserS } from '../dto/user/user';
+import { UserResponse } from '../dto/user/users.res';
 import { UserService } from '../services/user.service';
 
 @Resolver(() => UserS)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
+
+  @Query(() => UserResponse, { name: 'userData' })
+  async findAll(
+    @Args('args') listUsersInput: ListUsersInput,
+  ): Promise<UserResponse> {
+    try {
+      const dd = await this.userService.findAllWithPagination(listUsersInput);
+
+      return {
+        users: dd[0],
+        pageData: {
+          limit: listUsersInput.limit,
+          offset: listUsersInput.offset,
+          total: dd[1],
+        },
+      };
+    } catch (err) {}
+  }
 
   @Mutation(() => UserS)
   async createUser(@Args('createUser') createUserInput: CreateUserInput) {
