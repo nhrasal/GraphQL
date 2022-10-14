@@ -53,7 +53,7 @@ export function RelayTypes<T>(type: Type<T>): any {
     public name = `${name}Page`;
 
     @Field(() => Connection)
-    public page!: Connection;
+    public body!: Connection;
 
     @Field(() => PageData, { nullable: true })
     public pageData!: PageData;

@@ -54,7 +54,7 @@ export class UserResolver {
       arrayLength: count,
       sliceStart: offset || 0,
     });
-    return { page: { ...page }, pageData: { count, limit, offset } };
+    return { body: { ...page }, pageData: { count, limit, offset } };
   }
 
   @Query(() => UserS, { name: 'user' })
@@ -71,7 +71,8 @@ export class UserResolver {
 
     if (!findUser) throw new NotFoundException('User Not found!.');
 
-    return await this.userService.update(findUser._id, updateUserInput);
+    const update = await this.userService.update(findUser._id, updateUserInput);
+    return { _id: id, ...updateUserInput };
   }
 
   //   @Mutation(() => UserS)

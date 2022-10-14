@@ -35,15 +35,16 @@ export abstract class BaseService<Entity> extends Repository<Entity> {
   }
 
   async update(_id: ObjectID, options: any): Promise<any> {
-    const update = await this.repo
-      .createQueryBuilder()
-      .update(options)
-      .where({
-        _id,
-      })
-      .returning('*')
-      .execute();
+    const update = await this.repo.update(_id, { ...options });
+    // .createQueryBuilder()
+    // .update(options)
+    // .where({
+    //   _id,
+    // })
+    // .returning('*')
+    // .execute();
     return update.raw[0];
+    return update;
     // update(_id, { ...options });
   }
 }

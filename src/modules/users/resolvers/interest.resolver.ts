@@ -35,7 +35,7 @@ export class InterestResolver {
       sliceStart: offset || 0,
     });
 
-    return { page, pageData: { count, limit, offset } };
+    return { body: { ...page }, pageData: { count, limit, offset } };
   }
 
   @Query(() => Interest, { name: 'interest' })
