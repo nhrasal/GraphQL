@@ -4,21 +4,23 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import { JWTHelper } from 'src/helper/jwt.helper';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   // constructor() {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
+    const request = GqlExecutionContext.create(context).getContext();
+
     const authHeader = request.headers['authorization'];
 
     const token = authHeader && authHeader.split(' ')[1];
 
-    if (!request.headers['authorization'] || !token || token == null)
+    if (!authHeader || !token || token == null)
       throw new UnauthorizedException('No Token Added! 💔');
 
-    // const payload = await getPayloadFromToken(token);
+    const payload = await getPayloadFromToken(token);
 
     request.user = {};
 

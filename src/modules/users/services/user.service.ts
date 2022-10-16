@@ -33,11 +33,12 @@ export class UserService extends BaseService<UserEntity> {
       emailVerified: false,
       userType: 'user',
       image: null,
+      isActive: false,
     };
     const store = this.userRepo.save(data);
     if (store) {
       await this.userJob.add('accountVerification', {
-        ...findUser,
+        ...data,
         token: token,
       });
       return store;

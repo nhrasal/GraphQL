@@ -40,8 +40,8 @@ export class userQueueService {
         subject: 'Account Verification :: Place',
         html: `<b>Welcome ${requestData.firstName} ${requestData.lastName}</b>
         <br />
-        please click on the following link to verify your email: 
-        <a clicktracking="off" href="${BASE_URL}${API_PREFIX}/customers/verify/${requestData.token}">Verify Account</a>
+        please click on the following link to verify your account: 
+        <a clicktracking="off" href="${BASE_URL}${API_PREFIX}/user/verify/${requestData.token}">Verify Account</a>
         `,
       });
     } catch (err) {

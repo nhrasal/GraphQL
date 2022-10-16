@@ -11,6 +11,7 @@ import { GraphQLModule } from '@nestjs/graphql';
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       autoSchemaFile: true,
+      context: ({ req }) => ({ headers: req.headers }),
     }),
   ],
 })

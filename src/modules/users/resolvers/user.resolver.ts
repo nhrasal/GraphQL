@@ -1,6 +1,7 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { connectionFromArraySlice } from 'graphql-relay';
+import { AuthGuard } from 'src/auth/auth.guard';
 import ConnectionArgs, {
   getPagingParameters,
 } from 'src/common/relay/connection.args';
@@ -16,6 +17,7 @@ import { UserService } from '../services/user.service';
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(AuthGuard)
   @Query(() => UserResponse, { name: 'userData' })
   async findAll(
     @Args('args') listUsersInput: ListUsersInput,
