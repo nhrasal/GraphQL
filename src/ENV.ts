@@ -4,10 +4,11 @@ export function toBool(value: string): boolean {
   return value === 'true';
 }
 config({
-  path: path.join(
-    process.cwd(),
-    `${process.env.NODE_ENV || 'development'}.env`,
-  ),
+  // path: path.join(
+  //   process.cwd(),
+  //   `${process.env.NODE_ENV || 'development'}.env`,
+  // ),
+  path: path.join(process.cwd(), `development.env`),
 });
 
 export const ENV_DEVELOPMENT = 'development';
@@ -33,6 +34,7 @@ export const ENV = {
   // throttle configuration
   THROTTLE_TTL: +process.env.THROTTLE_TTL || 60,
   THROTTLE_LIMIT: +process.env.THROTTLE_LIMIT || 100,
+
   MAIL_HOST: process.env.MAIL_HOST,
   MAIL_PORT: parseInt(process.env.MAIL_PORT),
   MAIL_USER: process.env.MAIL_USER,

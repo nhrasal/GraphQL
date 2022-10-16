@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 import { ObjectID } from 'typeorm';
 
 type male = 'male';
@@ -21,12 +22,16 @@ export class InterestAdd {
 @InputType()
 export class CreateUserInput {
   @Field(() => String, { description: 'User firstName ' })
+  @IsNotEmpty()
   firstName: string;
 
   @Field(() => String, { description: 'User lastName ' })
+  @IsNotEmpty()
   lastName: string;
 
   @Field(() => String, { description: 'User email ' })
+  @IsNotEmpty()
+  @IsEmail()
   email: string;
 
   @Field(() => String, {
@@ -46,5 +51,6 @@ export class CreateUserInput {
   gender?: string;
 
   @Field(() => String, { description: 'password of the user' })
+  @IsNotEmpty()
   password: string;
 }

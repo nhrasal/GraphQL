@@ -5,6 +5,7 @@ import { ResponseInterceptor } from './@interceptors/response.interceptor';
 import { BaseLogger } from './@logger/Base.logger';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { QueueModule } from './modules/queues/queue.module';
 import { UserModule } from './modules/users/user.module';
 
 @Module({
@@ -13,6 +14,7 @@ import { UserModule } from './modules/users/user.module';
     // UsersModule,
     UserModule,
     AuthModule,
+    QueueModule,
   ],
   providers: [
     BaseLogger,

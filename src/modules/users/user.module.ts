@@ -7,9 +7,13 @@ import { InterestEntity } from './entities/interest.entity';
 import { UserResolver } from './resolvers/user.resolver';
 import { InterestService } from './services/interest.service';
 import { InterestResolver } from './resolvers/interest.resolver';
+import { QueueModule } from '../queues/queue.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity, InterestEntity])],
+  imports: [
+    TypeOrmModule.forFeature([UserEntity, InterestEntity]),
+    QueueModule,
+  ],
 
   providers: [UserResolver, UserService, InterestService, InterestResolver],
   exports: [UserService],
