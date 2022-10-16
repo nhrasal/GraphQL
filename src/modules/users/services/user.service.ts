@@ -22,21 +22,20 @@ export class UserService extends BaseService<UserEntity> {
     const findUser = await this.findOneByEmail(userRequestData.email);
 
     if (findUser) throw new BadRequestException('User already exists!');
-
+    const token = await this.bcryptHelper.hashString(
+      `${userRequestData.email}${Date.now()}`,
+    );
     const data = {
       ...userRequestData,
       password: await this.bcryptHelper.hashString(userRequestData.password),
       deletedAt: null,
-      token: null,
+      token: token,
       emailVerified: false,
       userType: 'user',
       image: null,
     };
     const store = this.userRepo.save(data);
     if (store) {
-      const token = await this.bcryptHelper.hashString(
-        `${userRequestData.email}${Date.now()}`,
-      );
       await this.userJob.add('accountVerification', {
         ...findUser,
         token: token,
