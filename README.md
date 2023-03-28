@@ -1,7 +1,7 @@
 ## Description
 
 Using NestJs framework and Graphql Apollo federation, TypeORM, MongoDB and Redis.
-Please make sure you already install redis and mongodb in your local machine or container
+Please make sure you have already install redis and mongodb in your local machine or container
 
 ## Add information or configure your env file from the env folder
 
